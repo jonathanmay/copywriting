@@ -71,7 +71,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
     } of ${data.sentences} sentence${
       data.sentences > 1 ? "s are" : " is"
     } very hard to read`;
-    document.querySelector("you").innerHTML = `You have used ${
+    document.querySelector("#you").innerHTML = `You have used ${
       data.you
     } instances of you words. Try to use ${Math.round(
       data.sentences / 2
