@@ -73,7 +73,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
     } very hard to read`;
     document.querySelector("you").innerHTML = `You have used ${
       data.you
-    } instances of you/your. Try to use ${Math.round(
+    } instances of you words. Try to use ${Math.round(
       data.sentences / 2
     )} or more`;
   }
@@ -186,7 +186,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
         if (
           youWords[word.toLowerCase()] !== undefined
         ) {
-          data.youWords += 1;
+          data.you += 1;
           return `<span class="you">${word}</span>`;
         } else {
           return word;
