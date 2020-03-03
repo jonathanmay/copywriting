@@ -1,0 +1,2 @@
+# copywriting
+Fundraising Copy Checker
