@@ -16,7 +16,8 @@ Paste in something you're working on and edit away. Or, click the Write button a
     veryHardSentences: 0,
     adverbs: 0,
     passiveVoice: 0,
-    complex: 0
+    complex: 0,
+    you: 0
   };
 
   function format() {
@@ -28,7 +29,8 @@ Paste in something you're working on and edit away. Or, click the Write button a
       veryHardSentences: 0,
       adverbs: 0,
       passiveVoice: 0,
-      complex: 0
+      complex: 0,
+      you: 0
     };
     ("use strict");
     let inputArea = document.getElementById("text-area");
@@ -50,12 +52,12 @@ Paste in something you're working on and edit away. Or, click the Write button a
       data.adverbs
     } adverb${data.adverbs > 1 ? "s" : ""}. Try to use ${Math.round(
       data.paragraphs / 3
-    )} or less`;
+    )} or fewer`;
     document.querySelector(
       "#passive"
     ).innerHTML = `You have used passive voice ${data.passiveVoice} time${
       data.passiveVoice > 1 ? "s" : ""
-    }. Aim for ${Math.round(data.sentences / 5)} or less.`;
+    }. Aim for ${Math.round(data.sentences / 5)} or fewer.`;
     document.querySelector("#complex").innerHTML = `${data.complex} phrase${
       data.complex > 1 ? "s" : ""
     } could be simplified.`;
@@ -69,6 +71,11 @@ Paste in something you're working on and edit away. Or, click the Write button a
     } of ${data.sentences} sentence${
       data.sentences > 1 ? "s are" : " is"
     } very hard to read`;
+    document.querySelector("you").innerHTML = `You have used ${
+      data.you
+    } instances of you/your. Try to use ${Math.round(
+      data.sentences / 2
+    )} or more`;
   }
 
   function getDifficultSentences(p) {
@@ -83,6 +90,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
       sent = getComplex(sent);
       sent = getPassive(sent);
       sent = getQualifier(sent);
+      sent = getYou(sent);
       let level = calculateLevel(letters, words, 1);
       if (words < 14) {
         return sent;
@@ -169,6 +177,23 @@ Paste in something you're working on and edit away. Or, click the Write button a
       })
       .join(" ");
   }
+  
+  function getYou(sentence) {
+    let youWords = getYouWords();
+    return sentence
+      .split(" ")
+      .map(word => {
+        if (
+          youWords[word.toLowerCase()] !== undefined
+        ) {
+          data.youWords += 1;
+          return `<span class="you">${word}</span>`;
+        } else {
+          return word;
+        }
+    })
+    .join(" ");
+  }
 
   function getComplex(sentence) {
     let words = getComplexWords();
@@ -242,6 +267,14 @@ Paste in something you're working on and edit away. Or, click the Write button a
       "we were wondering": 1,
       "we will try": 1,
       "we wonder": 1
+    };
+  }
+  
+  function getYouWords() {
+    return {
+      you: 1,
+      your: 1,
+      "you're": 1
     };
   }
 
