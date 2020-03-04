@@ -224,12 +224,12 @@ Paste in something you're working on and edit away. Or, click the Write button a
     let words = getComplexWords();
     let wordList = Object.keys(words);
     wordList.forEach(key => {
-      sentence = findAndSpan(sentence, key, "complex");
+      sentence = findAndSpan(sentence, key, "complex", words[key]);
     });
     return sentence;
   }
 
-  function findAndSpan(sentence, string, type) {
+  function findAndSpan(sentence, string, type, replacement) {
     let index = sentence.toLowerCase().indexOf(string);
     let a = { complex: "complex", qualifier: "adverbs" };
     if (index >= 0) {
@@ -240,7 +240,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
         (type == "complex" ? `<span class="tooltiptext">` + string + `</span>` : ``) +
         sentence.slice(index, index + string.length) +
         "</span>" +
-        findAndSpan(sentence.slice(index + string.length), string, type);
+        findAndSpan(sentence.slice(index + string.length), string, type, replacement);
     }
     return sentence;
   }
@@ -249,7 +249,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
     let qualifiers = getQualifyingWords();
     let wordList = Object.keys(qualifiers);
     wordList.forEach(key => {
-      sentence = findAndSpan(sentence, key, "qualifier");
+      sentence = findAndSpan(sentence, key, "qualifier", "");
     });
     return sentence;
   }
