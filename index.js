@@ -237,6 +237,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
       sentence =
         sentence.slice(0, index) +
         `<span class="${type}">` +
+        ${type} == "complex" ? `<span class="tooltiptext">Bob</span>` : `` +
         sentence.slice(index, index + string.length) +
         "</span>" +
         findAndSpan(sentence.slice(index + string.length), string, type);
@@ -307,6 +308,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
     return {
       i: 1,
       we: 1,
+      our: 1,
       "i'm": 1,
       "i've": 1,
       "i'll": 1,
