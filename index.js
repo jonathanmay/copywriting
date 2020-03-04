@@ -18,7 +18,8 @@ Paste in something you're working on and edit away. Or, click the Write button a
     passiveVoice: 0,
     complex: 0,
     you: 0,
-    we: 0
+    we: 0,
+    exclaim: 0
   };
 
   function format() {
