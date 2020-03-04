@@ -17,7 +17,8 @@ Paste in something you're working on and edit away. Or, click the Write button a
     adverbs: 0,
     passiveVoice: 0,
     complex: 0,
-    you: 0
+    you: 0,
+    we: 0
   };
 
   function format() {
@@ -30,7 +31,8 @@ Paste in something you're working on and edit away. Or, click the Write button a
       adverbs: 0,
       passiveVoice: 0,
       complex: 0,
-      you: 0
+      you: 0,
+      we: 0
     };
     ("use strict");
     let inputArea = document.getElementById("text-area");
@@ -76,6 +78,11 @@ Paste in something you're working on and edit away. Or, click the Write button a
     } instances of you words. Try to use ${Math.round(
       data.sentences / 2
     )} or more`;
+    document.querySelector("#we").innerHTML = `You have used ${
+      data.we
+    } instances of I and we words. Try to use ${Math.round(
+      data.sentences / 5
+    )} or fewer;
   }
 
   function getDifficultSentences(p) {
@@ -91,6 +98,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
       sent = getPassive(sent);
       sent = getQualifier(sent);
       sent = getYou(sent);
+      sent = getWe(sent);
       let level = calculateLevel(letters, words, 1);
       if (words < 14) {
         return sent;
@@ -195,6 +203,23 @@ Paste in something you're working on and edit away. Or, click the Write button a
     .join(" ");
   }
 
+  function getWe(sentence) {
+    let weWords = getWeWords();
+    return sentence
+      .split(" ")
+      .map(word => {
+        if (
+          weWords[word.toLowerCase()] !== undefined
+        ) {
+          data.we += 1;
+          return `<span class="we">${word}</span>`;
+        } else {
+          return word;
+        }
+    })
+    .join(" ");
+  }
+
   function getComplex(sentence) {
     let words = getComplexWords();
     let wordList = Object.keys(words);
@@ -275,6 +300,19 @@ Paste in something you're working on and edit away. Or, click the Write button a
       you: 1,
       your: 1,
       "you're": 1
+    };
+  }
+
+  function getWeWords() {
+    return {
+      i: 1,
+      we: 1,
+      "i'm": 1,
+      "i've": 1,
+      "i'll": 1,
+      "we're": 1,
+      "we've": 1,
+      "we'll": 1
     };
   }
 
