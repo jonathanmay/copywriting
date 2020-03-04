@@ -82,7 +82,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
       data.we
     } instances of I and we words. Try to use ${Math.round(
       data.sentences / 5
-    )} or fewer;
+    )} or fewer`;
   }
 
   function getDifficultSentences(p) {
