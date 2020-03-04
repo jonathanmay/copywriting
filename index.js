@@ -32,7 +32,8 @@ Paste in something you're working on and edit away. Or, click the Write button a
       passiveVoice: 0,
       complex: 0,
       you: 0,
-      we: 0
+      we: 0,
+      exclaim: 0
     };
     ("use strict");
     let inputArea = document.getElementById("text-area");
@@ -83,6 +84,9 @@ Paste in something you're working on and edit away. Or, click the Write button a
     } instances of I and we words. Try to use ${Math.round(
       data.sentences / 5
     )} or fewer`;
+    document.querySelector("#exclaim").innerHTML = `You have used ${
+      data.exclaim
+    } exclamation marks. You should be ashamed of yourself.`;
   }
 
   function getDifficultSentences(p) {
@@ -99,6 +103,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
       sent = getQualifier(sent);
       sent = getYou(sent);
       sent = getWe(sent);
+      sent = getExclaim(sent);
       let level = calculateLevel(letters, words, 1);
       if (words < 14) {
         return sent;
@@ -196,6 +201,22 @@ Paste in something you're working on and edit away. Or, click the Write button a
         ) {
           data.you += 1;
           return `<span class="you">${word}</span>`;
+        } else {
+          return word;
+        }
+    })
+    .join(" ");
+  }
+  
+  function getExclaim(sentence) {
+    return sentence
+      .split(" ")
+      .map(word => {
+        if (
+          word.endsWith("!")
+        ) {
+          data.exclaim += 1;
+          return `<span class="exclaim">${word}</span>`;
         } else {
           return word;
         }
