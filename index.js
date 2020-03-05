@@ -52,7 +52,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
   format();
 
   function pluralize(string, data) {
-    return data > 1 ? string + "s" : string
+    return (data > 1) ? string + "s" : string
   }
   
   function generateAdverbText() {
@@ -67,7 +67,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
     }    
   
   function counters() {
-    document.querySelector("#adverb").innerHTML = generateAdverbText()
+    document.querySelector("#adverb").innerHTML = generateAdverbText();
     document.querySelector(
       "#passive"
     ).innerHTML = `You have used passive voice ${data.passiveVoice} time${
