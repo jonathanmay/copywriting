@@ -50,20 +50,13 @@ Paste in something you're working on and edit away. Or, click the Write button a
   }
   window.format = format;
   format();
-
-  function generateAdverbText() {
-    if (data.adverbs > Math.round(data.paragraphs / 3)) {
-      return `You have used ${data.adverbs} adverbs. We 
-        think this is a lot, in text of this length. Try to use ${Math.round(
-        data.paragraphs / 3
-      )} or fewer for text of this length.`;
-    } else {
-      return `You have used ${data.adverbs}. We 
-        think that's about right for text of this length.`;
-    }    
   
   function counters() {
-    document.querySelector("#adverb").innerHTML = generateAdverbText();
+    document.querySelector("#adverb").innerHTML = `You have used ${
+      data.adverbs	
+    } adverb${data.adverbs > 1 ? "s" : ""}. Try to use ${Math.round(	
+      data.paragraphs / 3	
+    )} or fewer`;
     document.querySelector(
       "#passive"
     ).innerHTML = `You have used passive voice ${data.passiveVoice} time${
