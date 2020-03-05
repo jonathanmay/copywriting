@@ -57,13 +57,13 @@ Paste in something you're working on and edit away. Or, click the Write button a
   
   function generateAdverbText() {
     if (data.adverbs > Math.round(data.paragraphs / 3)) {
-      return `You have used ${data.adverbs} ` + pluralize("adverb", data.adverbs) + `. 
-        We this this is a lot, in text of this length. Try to use ${Math.round(
+      return `You have used ${data.adverbs} ` + pluralize("adverb", data.adverbs) + `. We 
+        think this is a lot, in text of this length. Try to use ${Math.round(
         data.paragraphs / 3
       )} or fewer for text of this length.`;
     } else {
-      return `You have used ${data.adverbs} ` + pluralize("adverb", data.adverbs) + `. 
-        We think that's about right for text of this length.`;
+      return `You have used ${data.adverbs} ` + pluralize("adverb", data.adverbs) + `. We 
+        think that's about right for text of this length.`;
     }    
   
   function counters() {
