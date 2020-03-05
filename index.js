@@ -52,7 +52,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
   format();
 
   function pluralize(word, counter) {
-    return (counter > 1) ? word + "s" : word
+    return (counter > 1) ? word + "s" : word;
   }
   
   function generateAdverbText() {
@@ -63,7 +63,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
       )} or fewer for text of this length.`;
     } else {
       return `You have used ${data.adverbs} ` + pluralize("adverb", data.adverbs) + `. 
-        We think that's about right for text of this length.`
+        We think that's about right for text of this length.`;
     }    
   
   function counters() {
