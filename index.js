@@ -51,8 +51,8 @@ Paste in something you're working on and edit away. Or, click the Write button a
   window.format = format;
   format();
 
-  function pluralize(string, data) {
-    return (data > 1) ? string + "s" : string
+  function pluralize(word, counter) {
+    return (counter > 1) ? word + "s" : word
   }
   
   function generateAdverbText() {
