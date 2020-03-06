@@ -51,43 +51,97 @@ Paste in something you're working on and edit away. Or, click the Write button a
   window.format = format;
   format();
   
-  function counters() {
-    document.querySelector("#adverb").innerHTML = `You have used ${
-      data.adverbs	
-    } adverb${data.adverbs > 1 ? "s" : ""}. Try to use ${Math.round(	
-      data.paragraphs / 3	
-    )} or fewer`;
-    document.querySelector(
-      "#passive"
-    ).innerHTML = `You have used passive voice ${data.passiveVoice} time${
-      data.passiveVoice > 1 ? "s" : ""
-    }. Aim for ${Math.round(data.sentences / 5)} or fewer.`;
-    document.querySelector("#complex").innerHTML = `${data.complex} phrase${
-      data.complex > 1 ? "s" : ""
-    } could be simplified.`;
-    document.querySelector("#hardSentence").innerHTML = `${
+  function pluralize(word, number) {
+    return (number == 1) ? word : word + "s";
+  }
+
+  function getAdverbText() {
+    if (data.adverbs == 0) {
+      return `You've used no adverbs, which is superb. Nice work`;
+    } else if (data.adverbs <= Math.round(data.paragraphs / 3)) {
+      return `You've used ${
+        data.adverbs
+      } ${pluralize("adverb", data.adverbs)}, which is about right for this length of text.`;
+    } else {
+      return `You've used ${
+        data.adverbs  
+      } ${pluralize("adverb", data.adverbs)}. Try to use ${Math.round(  
+        data.paragraphs / 3 
+      )} or fewer in text of this length`;
+    };
+  }
+
+  function getPassiveText() {
+    if (data.passiveVoice == 0) {
+      return "You've used no passive voice phrases, which is excellent. Nice work.";
+    } else if (data.passiveVoice <= Math.round(data.sentences / 5)) {
+      return `You've used passive voice ${data.passiveVoice} ${pluralize("time", data.passiveVoice)},
+        which is about right for this length of text.`;
+    } else {
+      return `You've used passive voice ${
+        data.passiveVoice
+      } ${pluralize("time", data.passiveVoice)}. Try to use ${Math.round(data.sentences / 5)}
+        or fewer in text of this length.`
+    };
+  }
+
+  function getComplexText() {
+    return `${data.complex} ${pluralize("phrase", data.complex)} could be simplified`;
+  }
+
+  function getHardSentenceText() {
+    return `${
       data.hardSentences
     } of ${data.sentences} sentence${
       data.sentences > 1 ? "s are" : " is"
     } hard to read`;
-    document.querySelector("#veryHardSentence").innerHTML = `${
+  }
+
+  function getVeryHardSentenceText() {
+    return `${
       data.veryHardSentences
     } of ${data.sentences} sentence${
       data.sentences > 1 ? "s are" : " is"
     } very hard to read`;
-    document.querySelector("#you").innerHTML = `You have used ${
+  }
+
+  function getYouText() {
+    return `You have used ${
       data.you
     } instances of you words. Try to use ${Math.round(
       data.sentences / 2
     )} or more`;
-    document.querySelector("#we").innerHTML = `You have used ${
+  }
+
+  function getWeText() {
+    return `You have used ${
       data.we
     } instances of I and we words. Try to use ${Math.round(
       data.sentences / 5
     )} or fewer`;
-    document.querySelector("#exclaim").innerHTML = `You have used ${
-      data.exclaim
-    } exclamation marks. You should be ashamed of yourself.`;
+  }
+
+  function getExclaimText() {
+    if (data.exclaim > 1) {
+      return `You have used ${
+        data.exclaim
+      } exclamation marks. You should be ashamed of yourself. Exclamation marks suck.`;
+    } else if (data.exclaim == 1) {
+      return "You only have 1 exclamation mark, which isn't bad. Still, can you try removing it?";
+    } else {
+      return "Well done, your words speak for themselves and you've used none of those dreadful exclamation marks.";
+    }
+  }
+
+  function counters() {
+    document.querySelector("#adverb").innerHTML = getAdverbText();
+    document.querySelector("#passive").innerHTML = getPassiveText();
+    document.querySelector("#complex").innerHTML = getComplexText();
+    document.querySelector("#hardSentence").innerHTML = getHardSentenceText();
+    document.querySelector("#veryHardSentence").innerHTML = getVeryHardSentenceText();
+    document.querySelector("#you").innerHTML = getYouText();
+    document.querySelector("#we").innerHTML = getWeText();
+    document.querySelector("#exclaim").innerHTML = getExclaimText();
   }
 
   function getDifficultSentences(p) {
@@ -717,45 +771,4 @@ Paste in something you're working on and edit away. Or, click the Write button a
     };
   }
 
-  function getJustifierWords() {
-    return {
-      "i believe": 1,
-      "i consider": 1,
-      "i don't believe": 1,
-      "i don't consider": 1,
-      "i don't feel": 1,
-      "i don't suggest": 1,
-      "i don't think": 1,
-      "i feel": 1,
-      "i hope to": 1,
-      "i might": 1,
-      "i suggest": 1,
-      "i think": 1,
-      "i was wondering": 1,
-      "i will try": 1,
-      "i wonder": 1,
-      "in my opinion": 1,
-      "is kind of": 1,
-      "is sort of": 1,
-      just: 1,
-      maybe: 1,
-      perhaps: 1,
-      possibly: 1,
-      "we believe": 1,
-      "we consider": 1,
-      "we don't believe": 1,
-      "we don't consider": 1,
-      "we don't feel": 1,
-      "we don't suggest": 1,
-      "we don't think": 1,
-      "we feel": 1,
-      "we hope to": 1,
-      "we might": 1,
-      "we suggest": 1,
-      "we think": 1,
-      "we were wondering": 1,
-      "we will try": 1,
-      "we wonder": 1
-    };
-  }
 })();
