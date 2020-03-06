@@ -3,15 +3,16 @@
 }
 
 .you {
-  background: #b4e77d;
+  background: #00ffff;
 }
 
 .we {
-  background: #a4e77d;
+  background: #00ff00;
 }
 
 .exclaim {
-  background: #f3d3d3;
+  background: #000080;
+  color: #fff;
 }
 
 .qualifier {
@@ -19,7 +20,7 @@
 }
 
 .passive {
-  background: #c4ed9d;
+  background: #008080;
 }
 
 .complex {
