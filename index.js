@@ -1,11 +1,11 @@
 (function() {
   let inputArea = document.getElementById("text-area");
-  let text = `The app highlights lengthy, complex sentences and common errors; if you see a yellow sentence, shorten or split it. If you see a red highlight, your sentence is so dense and complicated that your readers will get lost trying to follow its meandering, splitting logic - try editing this sentence to remove the red.
-You can utilize a shorter word in place of a purple one. Mouse over them for hints.
+  let text = `This copywriting app highlights lengthy, complex sentences; if you see a yellow sentence, shorten or split it. If you see a red highlight, your sentence is so dense and complicated that your readers will get lost trying to follow its meandering, splitting logic - try editing this sentence to remove the red.
+Generally, you can utilize a shorter word in place of a purple one. Mouse over purple words for hints.
 Adverbs and weakening phrases are helpfully shown in blue. Get rid of them and pick words with force, perhaps.
-Phrases in green have been marked to show passive voice.
-You can format your text with the toolbar.
-Paste in something you're working on and edit away. Or, click the Write button and compose something new.`;
+Phrases in green have been marked to show the passive voice.
+Paste in something you're working on and edit away.`;
+
   inputArea.value = text;
 
   let data = {
@@ -106,7 +106,9 @@ Paste in something you're working on and edit away. Or, click the Write button a
   }
 
   function getYouText() {
-    return `You have used ${
+    let preamble = `Words like you and your reference the donor, and add power.
+      Try to have as many as possible, and more than you have words like I, we, etc.`
+    return preamble + `You have used ${
       data.you
     } instances of you words. Try to use ${Math.round(
       data.sentences / 2
@@ -114,7 +116,10 @@ Paste in something you're working on and edit away. Or, click the Write button a
   }
 
   function getWeText() {
-    return `You have used ${
+    let preamble = `Words like I and we reference your organisation, and make you
+      seem introverted. Talk instead about the impact of the donor's gift, and what
+      they are creating at your organisation.`
+    return preamble + `You have used ${
       data.we
     } instances of I and we words. Try to use ${Math.round(
       data.sentences / 5
@@ -133,6 +138,29 @@ Paste in something you're working on and edit away. Or, click the Write button a
     }
   }
 
+  function calculateScore() {
+    return Math.max(0, (100 - data.veryHardSentences * 10 -
+      data.hardSentences * 5 -
+      data.adverbs * 3 -
+      data.passiveVoice * 3 -
+      data.complex * 3 -
+      data.exclaim * 5 -
+      (data.we >= data.you ? 25 : 0)));
+  }
+
+  function getScoreText() {
+    let score = calculateScore();
+    if (score <= 50) {
+      return `You have scored ${score}/100. Keep working on it.`;
+    } else if (score <= 75) {
+      return `You have scored ${score}/100. Nearly there.`;
+    } else if (score < 90) {
+      return `You have scored ${score}/100. Pretty good. Can you make it to 90?`;
+    } else {
+      return `You have scored ${score}/100. Go raise your money now.`
+    }
+  }
+
   function counters() {
     document.querySelector("#adverb").innerHTML = getAdverbText();
     document.querySelector("#passive").innerHTML = getPassiveText();
@@ -142,6 +170,7 @@ Paste in something you're working on and edit away. Or, click the Write button a
     document.querySelector("#you").innerHTML = getYouText();
     document.querySelector("#we").innerHTML = getWeText();
     document.querySelector("#exclaim").innerHTML = getExclaimText();
+    document.querySelector("#score").innerHTML = getScoreText();
   }
 
   function getDifficultSentences(p) {
