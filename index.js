@@ -1,10 +1,18 @@
 (function() {
   let inputArea = document.getElementById("text-area");
-  let text = `This copywriting app highlights lengthy, complex sentences; if you see a yellow sentence, shorten or split it. If you see a red highlight, your sentence is so dense and complicated that your readers will get lost trying to follow its meandering, splitting logic - try editing this sentence to remove the red.
+  let text = `So, you're a fundraiser. You have a great campaign, a wonderful case for support, or an important ask to make. You're ready to share it. But what next? Simply bang out some copy and throw it onto the web?
+
+Getting digital copy right is hard. But, it shouldn't be as hard as it is. 
+
+This copywriting app highlights lengthy, complex sentences; if you see a yellow sentence, shorten or split it. If you see a red highlight, your sentence is so dense and complicated that your readers will get lost trying to follow its meandering, splitting logic - try editing this sentence to remove the red.
+
 Generally, you can utilize a shorter word in place of a purple one. Mouse over purple words for hints.
-Adverbs and weakening phrases are helpfully shown in blue. Get rid of them and pick words with force, perhaps.
+
+Adverbs and weakening phrases are helpfully shown in blue. Get rid of them and pick words with force, perhaps?
+
 Phrases in green have been marked to show the passive voice.
-Paste in something you're working on and edit away.`;
+
+Paste in something you're working on and edit away. And for more information, see below on what we suggest you tidy up!`;
 
   inputArea.value = text;
 
@@ -19,6 +27,7 @@ Paste in something you're working on and edit away.`;
     complex: 0,
     you: 0,
     we: 0,
+    goodWords: 0,
     exclaim: 0
   };
 
@@ -34,16 +43,19 @@ Paste in something you're working on and edit away.`;
       complex: 0,
       you: 0,
       we: 0,
+      goodWords: 0,
       exclaim: 0
     };
     ("use strict");
     let inputArea = document.getElementById("text-area");
     let text = inputArea.value;
     let paragraphs = text.split("\n");
+    let strippedParagraphs = paragraphs.filter(p => p !== "");
+    console.log(strippedParagraphs);
     let outputArea = document.getElementById("output");
-    let hardSentences = paragraphs.map(p => getDifficultSentences(p));
+    let hardSentences = strippedParagraphs.map(p => getDifficultSentences(p));
     let inP = hardSentences.map(para => `<p>${para}</p>`);
-    data.paragraphs = paragraphs.length;
+    data.paragraphs = strippedParagraphs.length;
     console.log(data);
     counters();
     outputArea.innerHTML = inP.join(" ");
@@ -139,13 +151,21 @@ Paste in something you're working on and edit away.`;
   }
 
   function calculateScore() {
-    return Math.max(0, (100 - data.veryHardSentences * 10 -
+    return Math.max(0, (10 * data.goodWords + 100 - data.veryHardSentences * 10 -
       data.hardSentences * 5 -
       data.adverbs * 3 -
       data.passiveVoice * 3 -
       data.complex * 3 -
       data.exclaim * 5 -
       (data.we >= data.you ? 25 : 0)));
+  }
+
+  function getGoodWordsText() {
+    if (data.goodWords >= 1) {
+      return `You've one or more magic, emotive words, as highlighted. Nice.`;
+    } else {
+      return `When talking about donors or gifts, try using more powerful adjectives.`;
+    }
   }
 
   function getScoreText() {
@@ -161,21 +181,27 @@ Paste in something you're working on and edit away.`;
     }
   }
 
+  function wrapCopy(copy) {
+    return "<p>" + copy + "</p>";
+  }
+
   function counters() {
-    document.querySelector("#adverb").innerHTML = getAdverbText();
-    document.querySelector("#passive").innerHTML = getPassiveText();
-    document.querySelector("#complex").innerHTML = getComplexText();
-    document.querySelector("#hardSentence").innerHTML = getHardSentenceText();
-    document.querySelector("#veryHardSentence").innerHTML = getVeryHardSentenceText();
-    document.querySelector("#you").innerHTML = getYouText();
-    document.querySelector("#we").innerHTML = getWeText();
-    document.querySelector("#exclaim").innerHTML = getExclaimText();
-    document.querySelector("#score").innerHTML = getScoreText();
+    document.querySelector("#adverb").innerHTML = wrapCopy(getAdverbText());
+    document.querySelector("#passive").innerHTML = wrapCopy(getPassiveText());
+    document.querySelector("#complex").innerHTML = wrapCopy(getComplexText());
+    document.querySelector("#hardSentence").innerHTML = wrapCopy(getHardSentenceText());
+    document.querySelector("#veryHardSentence").innerHTML = wrapCopy(getVeryHardSentenceText());
+    document.querySelector("#you").innerHTML = wrapCopy(getYouText());
+    document.querySelector("#we").innerHTML = wrapCopy(getWeText());
+    document.querySelector("#goodwords").innerHTML = wrapCopy(getGoodWordsText());
+    document.querySelector("#exclaim").innerHTML = wrapCopy(getExclaimText());
+    document.querySelector("#score").innerHTML = wrapCopy(getScoreText());
   }
 
   function getDifficultSentences(p) {
-    let sentences = getSentenceFromParagraph(p + " ");
-    data.sentences += sentences.length;
+    let sentences = getSentenceFromParagraph(p);
+    console.log(sentences);
+    data.sentences += Math.floor((sentences.length + 1) / 2);
     let hardOrNot = sentences.map(sent => {
       let cleanSentence = sent.replace(/[^a-z0-9. ]/gi, "") + ".";
       let words = cleanSentence.split(" ").length;
@@ -188,6 +214,7 @@ Paste in something you're working on and edit away.`;
       sent = getYou(sent);
       sent = getWe(sent);
       sent = getExclaim(sent);
+      sent = getGoodAdjectives(sent);
       let level = calculateLevel(letters, words, 1);
       if (words < 14) {
         return sent;
@@ -202,7 +229,7 @@ Paste in something you're working on and edit away.`;
       }
     });
 
-    return hardOrNot.join(" ");
+    return hardOrNot.join("");
   }
 
   function getPassive(sent) {
@@ -241,9 +268,8 @@ Paste in something you're working on and edit away.`;
 
   function getSentenceFromParagraph(p) {
     let sentences = p
-      .split(". ")
+      .split(/(\. |\? |\! )/)
       .filter(s => s.length > 0)
-      .map(s => s + ".");
     return sentences;
   }
 
@@ -290,6 +316,23 @@ Paste in something you're working on and edit away.`;
         }
     })
     .join(" ");
+  }
+
+  function getGoodAdjectives(sentence) {
+    let goodWords = getKeyAdjectives();
+    return sentence
+      .split(" ")
+      .map(word => {
+        if (
+          goodWords[word.toLowerCase()] !== undefined
+        ) {
+          data.goodWords += 1;
+          return `<span class="goodwords">${word}</span>`;
+        } else {
+          return word;
+        }
+      })
+      .join(" ");
   }
   
   function getExclaim(sentence) {
@@ -405,7 +448,9 @@ Paste in something you're working on and edit away.`;
     return {
       you: 1,
       your: 1,
-      "you're": 1
+      "you're": 1,
+      "you've": 1,
+      "you'll": 1,
     };
   }
 
@@ -420,6 +465,20 @@ Paste in something you're working on and edit away.`;
       "we're": 1,
       "we've": 1,
       "we'll": 1
+    };
+  }
+
+  function getKeyAdjectives() {
+    return {
+      kind: 1,
+      caring: 1,
+      compassionate: 1,
+      helpful: 1,
+      friendly: 1,
+      fair: 1,
+      "hard-working": 1,
+      generous: 1,
+      honest: 1,
     };
   }
 
