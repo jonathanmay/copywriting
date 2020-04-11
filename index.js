@@ -4,7 +4,7 @@
 
 Getting digital copy right is hard. But, it shouldn't be as hard as it is. 
 
-This copywriting app highlights lengthy, complex sentences; if you see a yellow sentence, shorten or split it. If you see a red highlight, your sentence is so dense and complicated that your readers will get lost trying to follow its meandering, splitting logic - try editing this sentence to remove the red.
+Although this copywriting app is not yet a grammar or spelling checker, it highlights lengthy, complex sentences; if you see a yellow sentence, shorten or split it. If you see a red highlight, your sentence is so dense and complicated that your readers will get lost trying to follow its meandering, splitting logic - try editing this sentence to remove the red.
 
 Generally, you can utilize a shorter word in place of a purple one. Mouse over purple words for hints.
 
